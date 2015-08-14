@@ -1,0 +1,38 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath group: 'com.bmuschko', name: 'gradle-cargo-plugin', version: '2.1.1'
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'com.bmuschko.cargo-base'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile group: 'org.springframework', name: 'spring-webmvc', version: '4.2.0.RELEASE'
+
+  testCompile group: 'junit', name: 'junit', version: '4.12'
+  testCompile group: 'org.springframework', name: 'spring-test', version: '4.2.0.RELEASE'
+}
+
+task run(type: com.bmuschko.gradle.cargo.tasks.local.CargoRunLocal, dependsOn: war) {
+
+  def installer = new com.bmuschko.gradle.cargo.convention.ZipUrlInstaller()
+  installer.installUrl = 'http://mirror.synyx.de/apache/tomcat/tomcat-8/v8.0.24/bin/apache-tomcat-8.0.24.zip'
+  installer.downloadDir = file("$buildDir/download")
+  installer.extractDir = file("$buildDir/extract")
+
+
+  containerId = 'tomcat8x'
+  zipUrlInstaller = installer
+
+}
+
