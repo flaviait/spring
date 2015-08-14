@@ -22,6 +22,12 @@ public class Vehicle implements Serializable {
     this.model = model;
   }
 
+  Vehicle(Integer id, String mancufacturer, String model) {
+    this.id = id;
+    this.manufacturer = mancufacturer;
+    this.model = model;
+  }
+
 
   public Integer getId() {
     return id;
