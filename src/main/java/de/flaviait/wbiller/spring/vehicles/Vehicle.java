@@ -66,4 +66,8 @@ public class Vehicle implements Serializable {
   public String toString() {
     return String.format("%s %s", manufacturer, model);
   }
+
+  public boolean isNew() {
+    return id == null;
+  }
 }

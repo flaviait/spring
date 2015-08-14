@@ -1,27 +1,30 @@
 package de.flaviait.wbiller.spring;
 
-import de.flaviait.wbiller.spring.vehicles.FakeVehicleRepository;
-import de.flaviait.wbiller.spring.vehicles.VehicleRepository;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+
+import javax.sql.DataSource;
 
 /**
  * @author wbiller
  */
 @Configuration
-class MainConfiguration {
-
-  @Bean
-  VehicleRepository vehicleRepository() {
-    return new FakeVehicleRepository();
-  }
+@ComponentScan("de.flaviait.wbiller.spring")
+public class MainConfiguration {
 
   @Bean
   EmbeddedDatabase embeddedDatabaseBuilder() {
     return new EmbeddedDatabaseBuilder().generateUniqueName(true)
                                         .addDefaultScripts()
                                         .continueOnError(true).build();
+  }
+
+  @Bean
+  JdbcTemplate jdbcTemplate(DataSource dataSource) {
+    return new JdbcTemplate(dataSource);
   }
 }
