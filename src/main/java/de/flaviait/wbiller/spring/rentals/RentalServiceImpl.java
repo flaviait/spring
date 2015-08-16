@@ -3,6 +3,7 @@ package de.flaviait.wbiller.spring.rentals;
 import de.flaviait.wbiller.spring.vehicles.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ class RentalServiceImpl implements RentalService {
   }
 
   @Override
+  @Transactional
   public Rental rent(Vehicle vehicle, Date date) {
 
     Assert.notNull(vehicle);
@@ -33,6 +35,7 @@ class RentalServiceImpl implements RentalService {
   }
 
   @Override
+  @Transactional
   public List<Rental> rentForAWeek(Vehicle vehicle, Date date) {
     Calendar cal = Calendar.getInstance();
     cal.setTime(date);

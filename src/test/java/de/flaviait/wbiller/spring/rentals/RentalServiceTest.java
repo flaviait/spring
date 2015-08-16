@@ -11,11 +11,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 import java.sql.Date;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 
 /**
@@ -24,7 +24,8 @@ import static org.junit.Assert.fail;
 @ContextConfiguration(classes = MainConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestExecutionListeners({
-    DependencyInjectionTestExecutionListener.class
+    DependencyInjectionTestExecutionListener.class,
+    TransactionalTestExecutionListener.class
 })
 public class RentalServiceTest {
 
@@ -39,12 +40,22 @@ public class RentalServiceTest {
 
   @Test
   public void rent() {
-    fail();
+    Vehicle vehicle = vehicleRepository.findOne(1).get();
+
+    rentalService.rent(vehicle, Date.valueOf("2015-09-02"));
+
+    int count = template.queryForObject("SELECT COUNT(*) FROM rentals WHERE vehicle_id = ?", Integer.class, 1);
+    assertEquals(2, count);
   }
 
   @Test
   public void rentForAWeek() {
-    fail();
+    Vehicle vehicle = vehicleRepository.findOne(2).get();
+
+    rentalService.rentForAWeek(vehicle, Date.valueOf("2015-09-23"));
+
+    int count = template.queryForObject("SELECT COUNT(*) FROM rentals WHERE vehicle_id = ?", Integer.class, 2);
+    assertEquals(7, count);
   }
 
   @Test

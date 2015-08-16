@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org/">
+  <head>
+    <meta charset="UTF-8" />
+    <title>FLAVIA Rent-A-Car</title>
+  </head>
+
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Vehicle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="rental : ${rentals}">
+          <td th:text="${#dates.format(rental.date)}">2015-08-15</td>
+          <td th:text="${rental.vehicle.manufacturer} + ' ' + ${rental.vehicle.model}">Volkswagen Tiguan</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

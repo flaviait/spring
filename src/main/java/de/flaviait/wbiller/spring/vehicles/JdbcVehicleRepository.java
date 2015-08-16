@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,11 +47,13 @@ class JdbcVehicleRepository implements VehicleRepository {
   }
 
   @Override
+  @Transactional
   public Vehicle save(Vehicle vehicle) {
     return vehicle.isNew() ? insert(vehicle) : update(vehicle);
   }
 
   @Override
+  @Transactional
   public void delete(Vehicle vehicle) {
     template.update("DELETE FROM vehicles WHERE id = ?", vehicle.getId());
   }

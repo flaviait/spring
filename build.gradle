@@ -17,9 +17,13 @@ repositories {
 }
 
 dependencies {
+
+  providedCompile group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: '8.0.24'
+
   compile group: 'org.springframework', name: 'spring-webmvc', version: '4.2.0.RELEASE'
   compile group: 'org.springframework', name: 'spring-jdbc', version: '4.2.0.RELEASE'
   compile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.3'
+  compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: '2.1.4.RELEASE'
 
   testCompile group: 'junit', name: 'junit', version: '4.12'
   testCompile group: 'org.springframework', name: 'spring-test', version: '4.2.0.RELEASE'

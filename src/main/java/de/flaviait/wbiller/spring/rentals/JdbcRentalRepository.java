@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +32,7 @@ class JdbcRentalRepository implements RentalRepository {
   public Optional<Rental> findOne(Integer id) {
     try {
       return Optional.of(
-          template.queryForObject("SELECT id, vehicle_id, date FROM rentals WHERE id = ?",
+          template.queryForObject("SELECT id, vehicle_id, rental_date FROM rentals WHERE id = ?",
                                   (rs, rowNum) -> {
                                     return new Rental(rs.getInt("id"),
                                                       vehicleRepository.findOne(rs.getInt("vehicle_id")).get(),
@@ -45,7 +46,7 @@ class JdbcRentalRepository implements RentalRepository {
 
   @Override
   public List<Rental> findAll() {
-    return template.query("SELECT id, vehicle_id, date FROM rentals",
+    return template.query("SELECT id, vehicle_id, rental_date FROM rentals",
                           (rs, rowNum) -> {
                             return new Rental(rs.getInt("id"),
                                               vehicleRepository.findOne(rs.getInt("vehicle_id")).get(),
@@ -54,11 +55,13 @@ class JdbcRentalRepository implements RentalRepository {
   }
 
   @Override
+  @Transactional
   public Rental save(Rental rental) {
     return rental.isNew() ? insert(rental) : update(rental);
   }
 
   @Override
+  @Transactional
   public void delete(Rental rental) {
     template.update("DELETE FROM rentals WHERE id = ?", rental.getId());
   }
