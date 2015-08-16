@@ -1,6 +1,9 @@
 package de.flaviait.wbiller.spring;
 
+import de.flaviait.wbiller.spring.web.VehicleConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -16,6 +19,9 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 @EnableWebMvc
 class WebConfiguration extends WebMvcConfigurerAdapter {
 
+  @Autowired
+  private VehicleConverter vehicleConverter;
+
   @Override
   public void configureViewResolvers(ViewResolverRegistry registry) {
 
@@ -30,5 +36,10 @@ class WebConfiguration extends WebMvcConfigurerAdapter {
     vr.setTemplateEngine(engine);
 
     registry.viewResolver(vr);
+  }
+
+  @Override
+  public void addFormatters(FormatterRegistry registry) {
+    registry.addConverter(vehicleConverter);
   }
 }

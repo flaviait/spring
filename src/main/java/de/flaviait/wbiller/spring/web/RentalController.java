@@ -6,11 +6,14 @@ import de.flaviait.wbiller.spring.rentals.RentalService;
 import de.flaviait.wbiller.spring.vehicles.Vehicle;
 import de.flaviait.wbiller.spring.vehicles.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,6 +38,12 @@ class RentalController {
   @RequestMapping(method = RequestMethod.GET)
   public String get() {
     return "rentals";
+  }
+
+  @RequestMapping(method = RequestMethod.POST)
+  public String post(@RequestParam Vehicle vehicle, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+    rentalService.rent(vehicle, date);
+    return "redirect:/";
   }
 
   @ModelAttribute("rentals")
