@@ -20,7 +20,7 @@ class WebConfiguration extends WebMvcConfigurerAdapter {
   public void configureViewResolvers(ViewResolverRegistry registry) {
 
     TemplateResolver resolver = new ClassLoaderTemplateResolver();
-    resolver.setPrefix("classpath:/templates/");
+    resolver.setPrefix("/templates/");
     resolver.setSuffix(".html");
 
     SpringTemplateEngine engine = new SpringTemplateEngine();

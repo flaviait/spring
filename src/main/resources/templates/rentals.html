@@ -6,6 +6,16 @@
   </head>
 
   <body>
+
+    <form method="post">
+      <p><label for="date">Date: </label> <input type="date" name="date" id="date" /></p>
+      <p><label for="vehicle">Vehicle: </label>
+      <select id="vehicle" name="vehicle">
+        <option th:each="vehicle : ${vehicles}" th:value="${vehicle.id}"
+                th:text="${vehicle.manufacturer} + ' ' + ${vehicle.model}">Volkswagen Tiguan</option>
+      </select></p>
+      <p><button type="submit">Rent</button></p>
+    </form>
     <table>
       <thead>
         <tr>
@@ -15,7 +25,7 @@
       </thead>
       <tbody>
         <tr th:each="rental : ${rentals}">
-          <td th:text="${#dates.format(rental.date)}">2015-08-15</td>
+          <td th:text="${#dates.format(rental.date, 'yyyy-MM-dd')}">2015-08-15</td>
           <td th:text="${rental.vehicle.manufacturer} + ' ' + ${rental.vehicle.model}">Volkswagen Tiguan</td>
         </tr>
       </tbody>
